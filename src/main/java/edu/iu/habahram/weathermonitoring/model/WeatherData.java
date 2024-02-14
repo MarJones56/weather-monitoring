@@ -10,6 +10,13 @@ import java.util.concurrent.TimeUnit;
 
 @Component
 public class WeatherData implements Subject{
+
+        public Weather(StatisticsDisplay statisticsDisplay, HeatIndexDisplay heatIndexDisplay
+                             ) {
+        this.statisticsDisplay = statisticsDisplay;
+        this.heatIndexDisplay = heatIndexDisplay;
+
+    }
     private List<Observer> observers;
     private float temperature;
     private float humidity;
@@ -60,12 +67,28 @@ public class WeatherData implements Subject{
         notifyObservers();
     }
 
-    public  void setMeasurements(float temperature,
+    public void setMeasurements(float temperature,
                                  float humidity,
                                  float pressure) {
         this.temperature = temperature;
         this.humidity = humidity;
         this.pressure = pressure;
         measurementChanged();
+    }
+
+    public void subscribeStats() {
+        statisticsDisplay.subscribe();
+    }
+
+        public void unsubscribeStats() {
+        statisticsDisplay.unsubscribe();
+    }
+
+        public void subscribeHeatIndex() {
+        heatIndexDisplay.subscribe();
+    }
+
+        public void unsubscribeHeatIndex() {
+        heatIndexDisplay.unsubscribe();
     }
 }
